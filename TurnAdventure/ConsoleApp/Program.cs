@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using ConsoleApp.Communication;
+using Microsoft.Extensions.DependencyInjection;
 using TurnAdventures;
 using TurnAdventures.Communication;
 
@@ -16,8 +17,7 @@ namespace ConsoleApp
         {
             ServiceCollection services = new();
 
-            services.AddSingleton<IMessageDisplayer, ConsoleMessageDisplayer>();
-            services.AddSingleton<IAnswerReciever, ConsoleAnswerReciever>();
+            services.AddSingleton<IUserCommunicator, ConsoleUserCommunicator>();
             services.AddSingleton<TurnAdventure>();
 
             ServiceProvider serviceProvider = services.BuildServiceProvider();
