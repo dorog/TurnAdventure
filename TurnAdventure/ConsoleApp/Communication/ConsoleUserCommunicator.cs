@@ -1,4 +1,6 @@
-﻿using TurnAdventures.Communication;
+﻿using TurnAdventures;
+using TurnAdventures.Battles;
+using TurnAdventures.Communication;
 
 namespace ConsoleApp.Communication
 {
@@ -6,31 +8,95 @@ namespace ConsoleApp.Communication
     {
         private const int firstSignalAsciiCode = 65;
 
-        public UserAction AskQuestion(string question, IEnumerable<UserAction> actions)
+        public IOption AskQuestion(string question, IEnumerable<IOption> actions)
         {
             Console.Clear();
-            Console.WriteLine(question);
 
-            IEnumerable<ConsoleOption> options = DisplayOptions(actions);
-
-            ConsoleOption selectedOption = GetAnswer(options);
-
-            return selectedOption.UserAction;
+            return AskQuestionWithoutConsoleClear(question, actions, DisplayOptions);
         }
 
-        private IEnumerable<ConsoleOption> DisplayOptions(IEnumerable<UserAction> actions)
+        public IOption AskPlayerAction(FightStateInfo fightStateInfo, string question, IEnumerable<IFightOption> options)
         {
-            return actions.Select((action, index) => 
+            Console.Clear();
+
+            DisplayFightStateInfo(fightStateInfo);
+
+            return AskQuestionWithoutConsoleClear(question, options, DisplayPlayerOptions);
+        }
+
+        private static void DisplayFightStateInfo(FightStateInfo fightStateInfo)
+        {
+            Console.WriteLine($"Turn ({fightStateInfo.Turn})");
+
+            DisplayFighterStateInfo(fightStateInfo.First);
+            DisplayFighterStateInfo(fightStateInfo.Second);
+
+            Console.WriteLine();
+        }
+
+        private static void DisplayFighterStateInfo(FighterStateInfo fighterStateInfo)
+        {
+            Console.WriteLine();
+            Console.WriteLine($"Name: {fighterStateInfo.Name}");
+            Console.WriteLine($"Health: {fighterStateInfo.Health}");
+
+            foreach (ExtraInfo extraInfo in fighterStateInfo.ExtraInformation)
             {
-                ConsoleOption option = new()
+                Console.WriteLine($"{extraInfo.Type}: {extraInfo.Description}");
+            }
+        }
+
+        private static IEnumerable<ConsoleOption> DisplayPlayerOptions(IEnumerable<IFightOption> options)
+        {
+            List<ConsoleOption> consoleOptions = new();
+
+            int index = 0;
+            foreach(IFightOption option in options)
+            {
+                if (option.IsSelectable())
+                {
+                    ConsoleOption consoleOption = new()
+                    {
+                        Signal = GetSignal(index),
+                        Option = option
+                    };
+
+                    Console.WriteLine($"{consoleOption.Signal}) {option.Description}");
+
+                    consoleOptions.Add(consoleOption);
+                }
+
+                index++;
+            }
+
+            return consoleOptions;
+        }
+
+        private IOption AskQuestionWithoutConsoleClear<Option>(string question, IEnumerable<Option> options, Func<IEnumerable<Option>, IEnumerable<ConsoleOption>> displayOptions)
+            where Option : IOption
+        {
+            Console.WriteLine(question);
+
+            IEnumerable<ConsoleOption> displayedOptions = displayOptions(options);
+
+            ConsoleOption selectedOption = GetAnswer(displayedOptions);
+
+            return selectedOption.Option;
+        }
+
+        private static IEnumerable<ConsoleOption> DisplayOptions(IEnumerable<IOption> options)
+        {
+            return options.Select((option, index) => 
+            {
+                ConsoleOption consoleOption = new()
                 {
                     Signal = GetSignal(index),
-                    UserAction = action
+                    Option = option
                 };
 
-                Console.WriteLine($"{option.Signal}) {action.Description}");
+                Console.WriteLine($"{consoleOption.Signal}) {option.Description}");
 
-                return option;
+                return consoleOption;
              })
             .ToArray();
         }
@@ -54,6 +120,20 @@ namespace ConsoleApp.Communication
             {
                 return selectedOption;
             }
+        }
+
+        public void DisplayActionMessage(string message)
+        {
+            Console.WriteLine(message);
+        }
+
+        public void DeclareWinner(string name)
+        {
+            Console.Clear();
+            Console.WriteLine($"{name} won the fight!");
+            Console.WriteLine();
+            Console.WriteLine("Press any key in order to navigate back to the main menu.");
+            Console.ReadKey();
         }
     }
 }

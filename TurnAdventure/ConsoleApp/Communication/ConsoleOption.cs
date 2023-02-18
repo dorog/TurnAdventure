@@ -1,11 +1,11 @@
-﻿using TurnAdventures.Communication;
+﻿using TurnAdventures;
 
 namespace ConsoleApp.Communication
 {
     internal class ConsoleOption
     {
         public string Signal { get; init; }
-        public UserAction UserAction { get; init; }
+        public IOption Option { get; init; }
 
         public bool IsSelected(string? answer)
         {
