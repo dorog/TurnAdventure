@@ -2,10 +2,10 @@
 
 namespace ConsoleApp.Communication
 {
-    internal class ConsoleOption<Option> where Option : IOption
+    internal class ConsoleOption<TOption> where TOption : IOption
     {
         public string Signal { get; init; }
-        public Option Option { get; init; }
+        public TOption Option { get; init; }
 
         public bool IsSelected(string? answer)
         {
