@@ -2,6 +2,8 @@
 {
     internal class Energy : Storage
     {
+        protected override string Unit => "energy";
+
         public Energy(double amount) : base(amount) { }
 
         public bool HasEnough(double amount)
@@ -14,6 +16,7 @@
             bool hasEnough = HasEnough(amount);
             if (hasEnough)
             {
+                UserCommunicator.DisplayActionMessage($"{Identifier.Name} lost {amount} {Unit}.");
                 Remaining -= amount;
             }
 

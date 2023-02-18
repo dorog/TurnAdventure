@@ -1,16 +1,30 @@
-﻿namespace TurnAdventures.Battles
+﻿using TurnAdventures.Communication;
+
+namespace TurnAdventures.Battles
 {
     internal class Fighter
     {
-        public string Name { get; init; }
-        public Health Health { get; init; }
+        private FighterProxy _enemy { get; set; }
+        private IFighterController _controller { get; set; }
+        private bool _isInitialized = false;
 
-        public FighterProxy Enemy { get; set; }
-        public IFighterController Controller { get; set; }
+        public required Identifier Identifier { get; init; }
+        public required Health Health { private get; init; }
+        public required IUserCommunicator UserCommunicator { private get; init; }
+
+        public void Init(FighterProxy enemy, IFighterController controller)
+        {
+            if (!_isInitialized)
+            {
+                _enemy = enemy;
+                _controller = controller;
+                _isInitialized = true;
+            }
+        }
 
         public void TakeTurn()
         {
-            Controller.ChoseAction();
+            _controller.ChoseAction();
         }
 
         public void TakeDamage(double damage)
@@ -18,7 +32,8 @@
             bool isDied = Health.Lose(damage);
             if (isDied)
             {
-                Enemy.Won();
+                UserCommunicator.DisplayActionMessage($"{Identifier.Name} died.");
+                _enemy.Won();
             }
         }
 
@@ -26,7 +41,7 @@
         {
             return new()
             {
-                Name = Name,
+                Name = Identifier.Name,
                 Health = Health.Remaining
             };
         }

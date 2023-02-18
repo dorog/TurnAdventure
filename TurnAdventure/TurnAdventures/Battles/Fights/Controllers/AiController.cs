@@ -1,6 +1,4 @@
-﻿using TurnAdventures.Communication;
-
-namespace TurnAdventures.Battles
+﻿namespace TurnAdventures.Battles
 {
     internal class AiController : IFighterController
     {

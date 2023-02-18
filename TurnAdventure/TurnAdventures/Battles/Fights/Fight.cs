@@ -35,7 +35,7 @@ namespace TurnAdventures.Battles
                 TakeTurn();
             }
 
-            _userCommunicator.DeclareWinner(winner.Name);
+            _userCommunicator.DeclareWinner(winner.Identifier.Name);
         }
 
         private void TakeTurn()

@@ -8,6 +8,8 @@ namespace ConsoleApp.Communication
     {
         private const int firstSignalAsciiCode = 65;
 
+        private readonly List<string> previousTurnMessages = new();
+
         public IOption AskQuestion(string question, IEnumerable<IOption> actions)
         {
             Console.Clear();
@@ -15,13 +17,30 @@ namespace ConsoleApp.Communication
             return AskQuestionWithoutConsoleClear(question, actions, DisplayOptions);
         }
 
-        public IOption AskPlayerAction(FightStateInfo fightStateInfo, string question, IEnumerable<IFightOption> options)
+        public IFightOption AskPlayerAction(FightStateInfo fightStateInfo, string question, IEnumerable<IFightOption> options)
         {
             Console.Clear();
 
             DisplayFightStateInfo(fightStateInfo);
 
+            DisplayPreviousTurnMessages();
+
             return AskQuestionWithoutConsoleClear(question, options, DisplayPlayerOptions);
+        }
+
+        private void DisplayPreviousTurnMessages()
+        {
+            if (previousTurnMessages.Any())
+            {
+                foreach (string message in previousTurnMessages)
+                {
+                    Console.WriteLine(message);
+                }
+
+                Console.WriteLine();
+
+                previousTurnMessages.Clear();
+            }
         }
 
         private static void DisplayFightStateInfo(FightStateInfo fightStateInfo)
@@ -46,16 +65,16 @@ namespace ConsoleApp.Communication
             }
         }
 
-        private static IEnumerable<ConsoleOption> DisplayPlayerOptions(IEnumerable<IFightOption> options)
+        private static IEnumerable<ConsoleOption<IFightOption>> DisplayPlayerOptions(IEnumerable<IFightOption> options)
         {
-            List<ConsoleOption> consoleOptions = new();
+            List<ConsoleOption<IFightOption>> consoleOptions = new();
 
             int index = 0;
             foreach(IFightOption option in options)
             {
                 if (option.IsSelectable())
                 {
-                    ConsoleOption consoleOption = new()
+                    ConsoleOption<IFightOption> consoleOption = new()
                     {
                         Signal = GetSignal(index),
                         Option = option
@@ -72,23 +91,24 @@ namespace ConsoleApp.Communication
             return consoleOptions;
         }
 
-        private IOption AskQuestionWithoutConsoleClear<Option>(string question, IEnumerable<Option> options, Func<IEnumerable<Option>, IEnumerable<ConsoleOption>> displayOptions)
-            where Option : IOption
+        private TOption AskQuestionWithoutConsoleClear<TOption, TConsoleOption>(string question, IEnumerable<TOption> options, Func<IEnumerable<TOption>, IEnumerable<TConsoleOption>> displayOptions)
+            where TOption : IOption
+            where TConsoleOption : ConsoleOption<TOption>
         {
             Console.WriteLine(question);
 
-            IEnumerable<ConsoleOption> displayedOptions = displayOptions(options);
+            IEnumerable<TConsoleOption> displayedOptions = displayOptions(options);
 
-            ConsoleOption selectedOption = GetAnswer(displayedOptions);
+            TConsoleOption selectedOption = GetAnswer<TOption, TConsoleOption>(displayedOptions);
 
             return selectedOption.Option;
         }
 
-        private static IEnumerable<ConsoleOption> DisplayOptions(IEnumerable<IOption> options)
+        private static IEnumerable<ConsoleOption<IOption>> DisplayOptions(IEnumerable<IOption> options)
         {
             return options.Select((option, index) => 
             {
-                ConsoleOption consoleOption = new()
+                ConsoleOption<IOption> consoleOption = new()
                 {
                     Signal = GetSignal(index),
                     Option = option
@@ -106,15 +126,17 @@ namespace ConsoleApp.Communication
             return ((char)(index + firstSignalAsciiCode)).ToString();
         }
 
-        private ConsoleOption GetAnswer(IEnumerable<ConsoleOption> options)
+        private TConsoleOption GetAnswer<TOption, TConsoleOption>(IEnumerable<TConsoleOption> options)
+            where TOption : IOption
+            where TConsoleOption : ConsoleOption<TOption>
         {
             string? answer = Console.ReadLine();
 
-            ConsoleOption? selectedOption = options.FirstOrDefault(option => option.IsSelected(answer));
+            TConsoleOption? selectedOption = options.FirstOrDefault(option => option.IsSelected(answer));
             if (selectedOption == null)
             {
                 Console.WriteLine("Invalid symbol! Please try again.");
-                return GetAnswer(options);
+                return GetAnswer<TOption, TConsoleOption>(options);
             }
             else
             {
@@ -124,12 +146,15 @@ namespace ConsoleApp.Communication
 
         public void DisplayActionMessage(string message)
         {
-            Console.WriteLine(message);
+            previousTurnMessages.Add(message);
         }
 
         public void DeclareWinner(string name)
         {
             Console.Clear();
+
+            DisplayPreviousTurnMessages();
+
             Console.WriteLine($"{name} won the fight!");
             Console.WriteLine();
             Console.WriteLine("Press any key in order to navigate back to the main menu.");

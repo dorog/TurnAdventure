@@ -1,26 +1,21 @@
-﻿namespace TurnAdventures.Battles
+﻿using TurnAdventures.Communication;
+
+namespace TurnAdventures.Battles
 {
-    internal class RestAction : IFighterAction, IFightOption
+    internal class RestAction : IFighterAction
     {
-        public string Name { get; init; }
-        public Energy Energy { get; init; }
-        public double Amount { get; init; }
+        public required string Name { get; init; }
+        public required Energy Energy { get; init; }
+        public required double Amount { get; init; }
+        public required Identifier Identifier { get; init; }
+        public required IUserCommunicator UserCommunicator { get; init; }
 
         public string Description => $"Use '{Name}' for restoring {Amount} energy.";
 
-        public void Select()
-        {
-            Execute();
-        }
-
         public void Execute()
         {
+            UserCommunicator.DisplayActionMessage($"{Identifier.Name} used '{Name}' for restoring {Amount} energy.");
             Energy.Gain(Amount);
-        }
-
-        public bool IsSelectable()
-        {
-            return true;
         }
     }
 }

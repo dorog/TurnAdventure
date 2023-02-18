@@ -17,7 +17,7 @@ namespace TurnAdventures.Battles
 
         public void ChoseAction()
         {
-            IOption selectedAction = _userCommunicator.AskPlayerAction(_fightState.GetInfo(), "Chose an action from the following list:", _figthOptions);
+            IFightOption selectedAction = _userCommunicator.AskPlayerAction(_fightState.GetInfo(), "Chose an action from the following list:", _figthOptions);
             selectedAction.Select();
         }
     }

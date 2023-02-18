@@ -1,10 +1,14 @@
-﻿namespace TurnAdventures.Battles
+﻿using TurnAdventures.Communication;
+
+namespace TurnAdventures.Battles
 {
     internal interface IFighterAction
     {
-        string Name { get; init; }
-        string Description { get; }
+        public string Name { get; init; }
+        public string Description { get; }
+        public Identifier Identifier { get; init; }
+        public IUserCommunicator UserCommunicator { get; init; }
 
-        void Execute();
+        public void Execute();
     }
 }
