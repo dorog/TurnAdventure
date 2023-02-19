@@ -5,6 +5,6 @@
         public double Energy { get; init; }
         public IFighterAction FighterAction { get; init; }
 
-        public string Description => $"Use '{FighterAction.Name}' for {Energy} energy and {FighterAction.Description}.";
+        public string Description => $"Use '{FighterAction.ActionIdentifier.Name}' for {Energy} energy and {FighterAction.Description}.";
     }
 }

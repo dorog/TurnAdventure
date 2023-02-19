@@ -26,10 +26,10 @@ namespace TurnAdventures.Battles
                     Energy = 5,
                     FighterAction = new AttackAction()
                     {
-                        Name = "Normal attack",
+                        ActionIdentifier = new() { Name = "Normal attack" },
                         Enemy = monsterProxy,
                         Damage = 15,
-                        Identifier = player.Identifier,
+                        UserIdentifier = player.Identifier,
                         UserCommunicator = userCommunicator
                     }
                 }),
@@ -38,25 +38,25 @@ namespace TurnAdventures.Battles
                     Energy = 20,
                     FighterAction = new AttackAction()
                     {
-                        Name = "Heavy attack",
+                        ActionIdentifier = new() { Name = "Heavy attack" },
                         Enemy = monsterProxy,
                         Damage = 25,
-                        Identifier = player.Identifier,
+                        UserIdentifier = player.Identifier,
                         UserCommunicator = userCommunicator
                     }
                 }),
                 new FigtherOption(new RestAction()
                 {
-                    Name = "Sleeping",
+                    ActionIdentifier = new() { Name = "Sleeping" },
                     Energy = player.Energy,
                     Amount = 20,
-                    Identifier = player.Identifier,
+                    UserIdentifier = player.Identifier,
                     UserCommunicator = userCommunicator
                 }),
                 new FigtherOption(new SkipAction()
                 {
-                    Name = "Bored",
-                    Identifier = player.Identifier,
+                    ActionIdentifier = new() { Name = "Bored" },
+                    UserIdentifier = player.Identifier,
                     UserCommunicator = userCommunicator
                 })
             });

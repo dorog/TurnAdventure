@@ -6,13 +6,13 @@ namespace TurnAdventures.Battles.Monsters.Types
     {
         public required AttackActionDefinition FastAttackDefinition { get; init; }
         public required AttackActionDefinition HeavyAttackDefinition { get; init; }
-        public required string SkipActionName { get; init; }
+        public required Identifier SkipActionIdentifier { get; init; }
 
         protected override IFighterAction[] GetNormalFighterActions(FighterProxy enemyProxy, IUserCommunicator userCommunicator)
         {
             AttackAction fastAttack = AttackAction.Create(FastAttackDefinition, Identifier, enemyProxy, userCommunicator);
             AttackAction heavyAttack = AttackAction.Create(HeavyAttackDefinition, Identifier, enemyProxy, userCommunicator);
-            SkipAction skipAction = SkipAction.Create(SkipActionName, Identifier, userCommunicator);
+            SkipAction skipAction = SkipAction.Create(SkipActionIdentifier, Identifier, userCommunicator);
 
             return new IFighterAction[]
             {
@@ -30,7 +30,7 @@ namespace TurnAdventures.Battles.Monsters.Types
         {
             AttackAction fastAttack = AttackAction.Create(FastAttackDefinition, Identifier, enemyProxy, userCommunicator);
             AttackAction heavyAttack = AttackAction.Create(HeavyAttackDefinition, Identifier, enemyProxy, userCommunicator);
-            SkipAction skipAction = SkipAction.Create(SkipActionName, Identifier, userCommunicator);
+            SkipAction skipAction = SkipAction.Create(SkipActionIdentifier, Identifier, userCommunicator);
 
             return new IFighterAction[]
             {

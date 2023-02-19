@@ -25,7 +25,7 @@ namespace TurnAdventures.Battles.Monsters
                 Identifier = monsterIdentifier,
                 Health = health,
                 Monster = monster,
-                Proxy = new(monster)
+                Proxy = new(monster, userCommunicator)
             };
         }
 

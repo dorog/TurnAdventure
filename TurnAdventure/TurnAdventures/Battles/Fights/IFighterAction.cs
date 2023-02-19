@@ -4,9 +4,9 @@ namespace TurnAdventures.Battles
 {
     internal interface IFighterAction
     {
-        public string Name { get; init; }
+        public Identifier ActionIdentifier { get; init; }
         public string Description { get; }
-        public Identifier Identifier { get; init; }
+        public Identifier UserIdentifier { get; init; }
         public IUserCommunicator UserCommunicator { get; init; }
 
         public void Execute();

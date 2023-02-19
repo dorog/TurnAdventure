@@ -4,10 +4,10 @@ namespace TurnAdventures.Battles
 {
     internal class AttackAction : IFighterAction
     {
-        public required string Name { get; init; }
+        public required Identifier ActionIdentifier { get; init; }
         public required FighterProxy Enemy { get; init; }
         public required double Damage { get; init; }
-        public required Identifier Identifier { get; init; }
+        public required Identifier UserIdentifier { get; init; }
         public required IUserCommunicator UserCommunicator { get; init; }
 
         public string Description => $"deal {Damage} damage";
@@ -16,18 +16,18 @@ namespace TurnAdventures.Battles
         {
             return new()
             {
-                Name = definition.Name,
+                ActionIdentifier = definition.Identifier,
                 Enemy = enemyProxy,
                 Damage = definition.Damage,
-                Identifier = identifier,
+                UserIdentifier = identifier,
                 UserCommunicator = userCommunicator
             };
         }
 
         public void Execute()
         {
-            UserCommunicator.DisplayActionMessage($"{Identifier.Name} used '{Name}' to deal {Damage} damage.");
-            Enemy.TakeDamage(Damage);
+            UserCommunicator.DisplayActionMessage($"{UserIdentifier.Name} used '{ActionIdentifier.Name}' to deal {Damage} damage.");
+            Enemy.HealthProxy.TakeDamage(Damage);
         }
     }
 }

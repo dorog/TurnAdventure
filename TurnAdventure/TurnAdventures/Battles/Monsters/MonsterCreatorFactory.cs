@@ -14,8 +14,9 @@ namespace TurnAdventures.Battles.Monsters
                     Identifier = new() { Name = "Minotaur" },
                     Health = 150,
                     Percentage = 20,
-                    HeavyAttackDefinition = new() { Damage = 20, Name = "Axe Slash" },
-                    SkipActionName = "Stare"
+                    HeavyAttackDefinition = new() { Damage = 20, Identifier = new() { Name = "Axe Slash" } },
+                    SkipActionIdentifier = new() { Name = "Stare" },
+                    CriticalHitActionDefinition = new() { Multiplier = 2, Turns = 1 }
                 }
             },
             new MonsterOption()
@@ -25,9 +26,9 @@ namespace TurnAdventures.Battles.Monsters
                     Identifier = new() { Name = "Harpy" },
                     Health = 50,
                     Percentage = 50,
-                    FastAttackDefinition = new() { Damage = 5, Name = "Claw Scratch" },
-                    HeavyAttackDefinition = new() { Damage = 30, Name = "Feather Storm" },
-                    SkipActionName = "Rest"
+                    FastAttackDefinition = new() { Damage = 5, Identifier = new() { Name = "Claw Scratch" } },
+                    HeavyAttackDefinition = new() { Damage = 30, Identifier = new() { Name = "Feather Storm" } },
+                    SkipActionIdentifier = new() { Name = "Rest" }
                 }
             },
             new MonsterOption()
@@ -37,9 +38,9 @@ namespace TurnAdventures.Battles.Monsters
                     Identifier = new() { Name = "Medusa" },
                     Health = 100,
                     Percentage = 35,
-                    FastAttackDefinition = new() { Damage = 10, Name = "Tail Swing" },
-                    HeavyAttackDefinition = new() { Damage = 20, Name = "Deadly Look" },
-                    SkipActionName = "Breath"
+                    FastAttackDefinition = new() { Damage = 10, Identifier = new() { Name = "Tail Swing" } },
+                    HeavyAttackDefinition = new() { Damage = 20, Identifier = new() { Name = "Deadly Look" } },
+                    SkipActionIdentifier = new() { Name = "Breath" }
                 }
             }
         };

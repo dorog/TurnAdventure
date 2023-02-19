@@ -2,7 +2,7 @@
 {
     internal class AttackActionDefinition
     {
-        public required string Name { get; init; }
+        public required Identifier Identifier { get; init; }
         public required double Damage { get; init; }
     }
 }

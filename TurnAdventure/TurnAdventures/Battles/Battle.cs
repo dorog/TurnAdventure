@@ -16,7 +16,7 @@ namespace TurnAdventures.Battles
         public void Select()
         {
             EnergyFighter player = PlayerCreator.Create(_userCommunicator);
-            FighterProxy playerProxy = new(player);
+            FighterProxy playerProxy = new(player, _userCommunicator);
 
             MonsterCreator monsterCreator = MonsterCreatorFactory.GetMonsterCreator(_userCommunicator);
 

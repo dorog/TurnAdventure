@@ -1,4 +1,6 @@
-﻿namespace TurnAdventures.Battles
+﻿using TurnAdventures.Communication;
+
+namespace TurnAdventures.Battles
 {
     internal class FighterProxy
     {
@@ -8,18 +10,16 @@
         private readonly ITurnProxy defaulTurnPoxy;
         private ITurnProxy currentTurnProxy;
 
-        private readonly IHealthProxy defaultHealthProxy;
-        private IHealthProxy currentHealthProxy;
+        public IHealthProxy HealthProxy { get; private set; }
 
-        public FighterProxy(Fighter fighter)
+        public FighterProxy(Fighter fighter, IUserCommunicator userCommunicator)
         {
             _fighter = fighter;
 
             defaulTurnPoxy = new NormalTurnProxy(fighter);
             currentTurnProxy = defaulTurnPoxy;
 
-            defaultHealthProxy = new NormalHealthProxy(fighter);
-            currentHealthProxy = defaultHealthProxy;
+            HealthProxy = new NormalHealthProxy(fighter, userCommunicator);
         }
 
         public void ConfigureProxy(Action<Fighter> won)
@@ -40,21 +40,6 @@
         public void ResetTurnProxy()
         {
             currentTurnProxy = defaulTurnPoxy;
-        }
-
-        public void TakeDamage(double damage)
-        {
-            currentHealthProxy.TakeDamage(damage);
-        }
-
-        public void SetHealthProxy(IHealthProxy newHealthProxy)
-        {
-            currentHealthProxy = newHealthProxy;
-        }
-
-        public void ResetHealthProxy()
-        {
-            currentHealthProxy = defaultHealthProxy;
         }
 
         public void Won()
