@@ -1,4 +1,5 @@
-﻿using TurnAdventures;
+﻿using Microsoft.VisualBasic.FileIO;
+using TurnAdventures;
 using TurnAdventures.Battles;
 using TurnAdventures.Communication;
 
@@ -10,7 +11,7 @@ namespace ConsoleApp.Communication
 
         private readonly List<string> previousTurnMessages = new();
 
-        public IOption AskQuestion(string question, IEnumerable<IOption> actions)
+        public TOption AskQuestion<TOption>(string question, IEnumerable<TOption> actions) where TOption : IOption
         {
             Console.Clear();
 
@@ -104,11 +105,11 @@ namespace ConsoleApp.Communication
             return selectedOption.Option;
         }
 
-        private static IEnumerable<ConsoleOption<IOption>> DisplayOptions(IEnumerable<IOption> options)
+        private static IEnumerable<ConsoleOption<TOption>> DisplayOptions<TOption>(IEnumerable<TOption> options) where TOption : IOption
         {
             return options.Select((option, index) => 
             {
-                ConsoleOption<IOption> consoleOption = new()
+                ConsoleOption<TOption> consoleOption = new()
                 {
                     Signal = GetSignal(index),
                     Option = option

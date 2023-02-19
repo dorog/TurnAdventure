@@ -6,7 +6,7 @@ namespace TurnAdventures
     public class TurnAdventure
     {
         private readonly IUserCommunicator _userCommunicator;
-        private readonly IOption[] _mainMenuOptions;
+        private readonly ISelectableOption[] _mainMenuOptions;
 
         public TurnAdventure(IUserCommunicator userCommunicator)
         {
@@ -20,7 +20,7 @@ namespace TurnAdventures
 
         public void Start()
         {
-            IOption selectedOption = _userCommunicator.AskQuestion("Select a menu from the following list:", _mainMenuOptions);
+            ISelectableOption selectedOption = _userCommunicator.AskQuestion("Select a menu from the following list:", _mainMenuOptions);
             selectedOption.Select();
 
             Start();

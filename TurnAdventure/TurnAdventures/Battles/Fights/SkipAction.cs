@@ -10,6 +10,16 @@ namespace TurnAdventures.Battles
 
         public string Description => $"Use '{Name}' to do nothing.";
 
+        public static SkipAction Create(string name, Identifier identifier, IUserCommunicator userCommunicator)
+        {
+            return new()
+            {
+                Name = name,
+                Identifier = identifier,
+                UserCommunicator = userCommunicator
+            };
+        }
+
         public void Execute()
         {
             UserCommunicator.DisplayActionMessage($"{Identifier.Name} used '{Name}' to do nothing.");

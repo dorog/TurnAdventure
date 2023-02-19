@@ -12,6 +12,18 @@ namespace TurnAdventures.Battles
 
         public string Description => $"deal {Damage} damage";
 
+        public static AttackAction Create(AttackActionDefinition definition, Identifier identifier, FighterProxy enemyProxy, IUserCommunicator userCommunicator)
+        {
+            return new()
+            {
+                Name = definition.Name,
+                Enemy = enemyProxy,
+                Damage = definition.Damage,
+                Identifier = identifier,
+                UserCommunicator = userCommunicator
+            };
+        }
+
         public void Execute()
         {
             UserCommunicator.DisplayActionMessage($"{Identifier.Name} used '{Name}' to deal {Damage} damage.");

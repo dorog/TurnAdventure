@@ -4,7 +4,7 @@ namespace TurnAdventures.Communication
 {
     public interface IUserCommunicator
     {
-        IOption AskQuestion(string question, IEnumerable<IOption> options);
+        TOption AskQuestion<TOption>(string question, IEnumerable<TOption> options) where TOption : IOption;
         IFightOption AskPlayerAction(FightStateInfo fightStateInfo, string question, IEnumerable<IFightOption> options);
         void DisplayActionMessage(string message);
         void DeclareWinner(string name);

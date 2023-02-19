@@ -1,6 +1,6 @@
 ﻿namespace TurnAdventures.Battles
 {
-    public interface IFightOption : IOption
+    public interface IFightOption : ISelectableOption
     {
         string Description { get; }
 
