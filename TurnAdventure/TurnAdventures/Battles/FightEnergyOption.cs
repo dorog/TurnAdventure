@@ -6,6 +6,7 @@
         private readonly FighterEnergyAction _fightEnergyAction;
 
         public string Description => _fightEnergyAction.Description;
+        public FightActionCategory Category => _fightEnergyAction.Category;
 
         public FigtherEnergyOption(Energy energy, FighterEnergyAction figtherEnergyAction)
         {

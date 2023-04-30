@@ -5,6 +5,7 @@
         private readonly IFighterAction _fighterAction;
 
         public string Description => _fighterAction.Description;
+        public FightActionCategory Category => _fighterAction.Category;
 
         public FigtherOption(IFighterAction fighterAction)
         {

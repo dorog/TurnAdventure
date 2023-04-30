@@ -4,22 +4,22 @@ namespace TurnAdventures.Battles
 {
     internal static class PlayerCreator
     {
-        public static EnergyFighter Create(IUserCommunicator userCommunicator)
+        public static EnergyFighter Create(IBattleUserCommunicator battleUserCommunicator)
         {
             Identifier playerIdentifier = new() { Name = "Player" };
 
             return new EnergyFighter()
             {
                 Identifier = playerIdentifier,
-                Health = new(100) { Identifier = playerIdentifier, UserCommunicator = userCommunicator },
-                UserCommunicator = userCommunicator,
-                Energy = new(50) { Identifier = playerIdentifier, UserCommunicator = userCommunicator }
+                Health = new(100) { Identifier = playerIdentifier, BattleUserCommunicator = battleUserCommunicator },
+                BattleUserCommunicator = battleUserCommunicator,
+                Energy = new(50) { Identifier = playerIdentifier, BattleUserCommunicator = battleUserCommunicator }
             };
         }
 
-        public static PlayerController CreateController(EnergyFighter player, Fighter monster, FighterProxy monsterProxy, IUserCommunicator userCommunicator)
+        public static PlayerController CreateController(EnergyFighter player, Fighter monster, FighterProxy monsterProxy, IBattleUserCommunicator battleUserCommunicator)
         {
-            return new(new FightState(player, monster), userCommunicator, new IFightOption[]
+            return new(new FightState(player, monster), battleUserCommunicator, new IFightOption[]
             {
                 new FigtherEnergyOption(player.Energy, new FighterEnergyAction()
                 {
@@ -30,7 +30,7 @@ namespace TurnAdventures.Battles
                         Enemy = monsterProxy,
                         Damage = 15,
                         UserIdentifier = player.Identifier,
-                        UserCommunicator = userCommunicator
+                        BattleUserCommunicator = battleUserCommunicator
                     }
                 }),
                 new FigtherEnergyOption(player.Energy, new FighterEnergyAction()
@@ -42,7 +42,7 @@ namespace TurnAdventures.Battles
                         Enemy = monsterProxy,
                         Damage = 25,
                         UserIdentifier = player.Identifier,
-                        UserCommunicator = userCommunicator
+                        BattleUserCommunicator = battleUserCommunicator
                     }
                 }),
                 new FigtherOption(new RestAction()
@@ -51,13 +51,13 @@ namespace TurnAdventures.Battles
                     Energy = player.Energy,
                     Amount = 20,
                     UserIdentifier = player.Identifier,
-                    UserCommunicator = userCommunicator
+                    BattleUserCommunicator = battleUserCommunicator
                 }),
                 new FigtherOption(new SkipAction()
                 {
                     ActionIdentifier = new() { Name = "Bored" },
                     UserIdentifier = player.Identifier,
-                    UserCommunicator = userCommunicator
+                    BattleUserCommunicator = battleUserCommunicator
                 })
             });
         }

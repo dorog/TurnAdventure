@@ -10,7 +10,7 @@ namespace TurnAdventures.Battles
 
         public required Identifier Identifier { get; init; }
         public required Health Health { private get; init; }
-        public required IUserCommunicator UserCommunicator { private get; init; }
+        public required IBattleUserCommunicator BattleUserCommunicator { private get; init; }
 
         public void Init(FighterProxy enemy, IFighterController controller)
         {
@@ -32,7 +32,7 @@ namespace TurnAdventures.Battles
             bool isDied = Health.Lose(damage);
             if (isDied)
             {
-                UserCommunicator.DisplayActionMessage($"{Identifier.Name} died.");
+                BattleUserCommunicator.DisplayActionMessage($"{Identifier.Name} died.");
                 _enemy.Won();
             }
         }

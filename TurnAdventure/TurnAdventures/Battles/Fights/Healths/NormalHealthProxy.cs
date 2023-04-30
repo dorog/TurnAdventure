@@ -7,12 +7,12 @@ namespace TurnAdventures.Battles
         private readonly List<IDamageModifier> _damageModifier = new();
 
         private readonly Fighter _fighter;
-        private readonly IUserCommunicator _userCommunicator;
+        private readonly IBattleUserCommunicator _battleUserCommunicator;
 
-        public NormalHealthProxy(Fighter fighter, IUserCommunicator userCommunicator)
+        public NormalHealthProxy(Fighter fighter, IBattleUserCommunicator battleUserCommunicator)
         {
             _fighter = fighter;
-            _userCommunicator = userCommunicator;
+            _battleUserCommunicator = battleUserCommunicator;
         }
 
         public void TakeDamage(double damage)
@@ -29,7 +29,7 @@ namespace TurnAdventures.Battles
         {
             foreach(IDamageModifier damageModifier in _damageModifier)
             {
-                damage = damageModifier.Modify(damage, _userCommunicator);
+                damage = damageModifier.Modify(damage, _battleUserCommunicator);
             }
 
             _damageModifier.RemoveAll(damageModifier => damageModifier.IsExpired());

@@ -9,7 +9,7 @@ namespace TurnAdventures.Battles
 
         public double Remaining { get; protected set; }
         public required Identifier Identifier { protected get; init; }
-        public required IUserCommunicator UserCommunicator { protected get; init; }
+        public required IBattleUserCommunicator BattleUserCommunicator { protected get; init; }
 
         public Storage(double amount)
         {
@@ -33,6 +33,6 @@ namespace TurnAdventures.Battles
             }
         }
 
-        private void DisplayActionMessage(double amount) => UserCommunicator.DisplayActionMessage($"{Identifier.Name} gained {amount} {Unit}.");
+        private void DisplayActionMessage(double amount) => BattleUserCommunicator.DisplayActionMessage($"{Identifier.Name} gained {amount} {Unit}.");
     }
 }

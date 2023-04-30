@@ -8,11 +8,12 @@ namespace TurnAdventures.Battles
         public required FighterProxy Enemy { get; init; }
         public required double Damage { get; init; }
         public required Identifier UserIdentifier { get; init; }
-        public required IUserCommunicator UserCommunicator { get; init; }
+        public required IBattleUserCommunicator BattleUserCommunicator { get; init; }
 
         public string Description => $"deal {Damage} damage";
+        public FightActionCategory Category => FightActionCategory.Attack;
 
-        public static AttackAction Create(AttackActionDefinition definition, Identifier identifier, FighterProxy enemyProxy, IUserCommunicator userCommunicator)
+        public static AttackAction Create(AttackActionDefinition definition, Identifier identifier, FighterProxy enemyProxy, IBattleUserCommunicator battleUserCommunicator)
         {
             return new()
             {
@@ -20,13 +21,13 @@ namespace TurnAdventures.Battles
                 Enemy = enemyProxy,
                 Damage = definition.Damage,
                 UserIdentifier = identifier,
-                UserCommunicator = userCommunicator
+                BattleUserCommunicator = battleUserCommunicator
             };
         }
 
         public void Execute()
         {
-            UserCommunicator.DisplayActionMessage($"{UserIdentifier.Name} used '{ActionIdentifier.Name}' to deal {Damage} damage.");
+            BattleUserCommunicator.DisplayActionMessage($"{UserIdentifier.Name} used '{ActionIdentifier.Name}' to deal {Damage} damage.");
             Enemy.HealthProxy.TakeDamage(Damage);
         }
     }

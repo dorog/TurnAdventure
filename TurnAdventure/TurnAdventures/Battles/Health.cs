@@ -22,6 +22,6 @@
             return Remaining <= 0;
         }
 
-        private void DisplayActionMessage(double amount) => UserCommunicator.DisplayActionMessage($"{Identifier.Name} lost {amount} {Unit}.");
+        private void DisplayActionMessage(double amount) => BattleUserCommunicator.DisplayActionMessage($"{Identifier.Name} lost {amount} {Unit}.");
     }
 }

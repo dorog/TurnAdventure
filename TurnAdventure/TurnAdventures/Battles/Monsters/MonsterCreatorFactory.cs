@@ -16,7 +16,8 @@ namespace TurnAdventures.Battles.Monsters
                     Percentage = 20,
                     HeavyAttackDefinition = new() { Damage = 20, Identifier = new() { Name = "Axe Slash" } },
                     SkipActionIdentifier = new() { Name = "Stare" },
-                    CriticalHitActionDefinition = new() { Multiplier = 2, Turns = 1 }
+                    CriticalHitActionDefinition = new() { Multiplier = 2, Turns = 1 },
+                    FallbackActionIdentifier = new() { Name = "Confused" }
                 }
             },
             new MonsterOption()
@@ -25,10 +26,12 @@ namespace TurnAdventures.Battles.Monsters
                 {
                     Identifier = new() { Name = "Harpy" },
                     Health = 50,
-                    Percentage = 50,
+                    Percentage = 90,
                     FastAttackDefinition = new() { Damage = 5, Identifier = new() { Name = "Claw Scratch" } },
                     HeavyAttackDefinition = new() { Damage = 30, Identifier = new() { Name = "Feather Storm" } },
-                    SkipActionIdentifier = new() { Name = "Rest" }
+                    SkipActionIdentifier = new() { Name = "Rest" },
+                    CharmActionDefinition = new() { CategoryForBanishing = FightActionCategory.Attack, Identifier = new() { Name = "Wink" }, Turns = 1 },
+                    FallbackActionIdentifier = new() { Name = "Confused" }
                 }
             },
             new MonsterOption()
@@ -40,14 +43,15 @@ namespace TurnAdventures.Battles.Monsters
                     Percentage = 35,
                     FastAttackDefinition = new() { Damage = 10, Identifier = new() { Name = "Tail Swing" } },
                     HeavyAttackDefinition = new() { Damage = 20, Identifier = new() { Name = "Deadly Look" } },
-                    SkipActionIdentifier = new() { Name = "Breath" }
+                    SkipActionIdentifier = new() { Name = "Breath" },
+                    FallbackActionIdentifier = new() { Name = "Confused" }
                 }
             }
         };
 
-        public static MonsterCreator GetMonsterCreator(IUserCommunicator userCommunicator)
+        public static MonsterCreator GetMonsterCreator(IBattleUserCommunicator battleUserCommunicator)
         {
-            MonsterOption selectedMonsterOption = userCommunicator.AskQuestion("Select a monster for fighting:", _monsterOptions);
+            MonsterOption selectedMonsterOption = battleUserCommunicator.AskForSelectingMonster("Select a monster for fighting:", _monsterOptions);
             return selectedMonsterOption.MonsterCreator;
         }
     }

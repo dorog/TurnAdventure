@@ -5,30 +5,34 @@ namespace TurnAdventures.Battles
 {
     internal class Battle : ISelectableOption
     {
-        private readonly IUserCommunicator _userCommunicator;
+        private readonly IBattleUserCommunicator _battleUserCommunicator;
         public string Description => "Single Battle";
 
-        public Battle(IUserCommunicator userCommunicator)
+        public Battle(IBattleUserCommunicator battleUserCommunicator)
         {
-            _userCommunicator = userCommunicator;
+            _battleUserCommunicator = battleUserCommunicator;
         }
 
         public void Select()
         {
-            EnergyFighter player = PlayerCreator.Create(_userCommunicator);
-            FighterProxy playerProxy = new(player, _userCommunicator);
+            FighterProxy playerProxy = new();
 
-            MonsterCreator monsterCreator = MonsterCreatorFactory.GetMonsterCreator(_userCommunicator);
+            EnergyFighter player = PlayerCreator.Create(_battleUserCommunicator);
 
-            MonsterDefinition monsterDefinition = monsterCreator.Create(_userCommunicator);
+            MonsterCreator monsterCreator = MonsterCreatorFactory.GetMonsterCreator(_battleUserCommunicator);
 
-            IFighterController playerController = PlayerCreator.CreateController(player, monsterDefinition.Monster, monsterDefinition.Proxy, _userCommunicator);
+            MonsterDefinition monsterDefinition = monsterCreator.Create(_battleUserCommunicator);
+
+            IFighterController playerController = PlayerCreator.CreateController(player, monsterDefinition.Monster, monsterDefinition.Proxy, _battleUserCommunicator);
             player.Init(monsterDefinition.Proxy, playerController);
 
-            IFighterController monsterController = monsterCreator.CreateMonsterController(monsterDefinition.Identifier, playerProxy, monsterDefinition.Health, _userCommunicator);
+            IFighterController monsterController = monsterCreator.CreateMonsterController(monsterDefinition.Identifier, playerProxy, monsterDefinition.Health, _battleUserCommunicator);
             monsterDefinition.Monster.Init(playerProxy, monsterController);
 
-            Fight fight = new(_userCommunicator, playerProxy, monsterDefinition.Proxy);
+            playerProxy.Init(player, playerController, _battleUserCommunicator);
+            monsterDefinition.Proxy.Init(monsterDefinition.Monster, monsterController, _battleUserCommunicator);
+
+            Fight fight = new(_battleUserCommunicator, playerProxy, monsterDefinition.Proxy);
             fight.Start();
         }
     }

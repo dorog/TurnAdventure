@@ -8,13 +8,13 @@ namespace TurnAdventures
         private readonly IUserCommunicator _userCommunicator;
         private readonly ISelectableOption[] _mainMenuOptions;
 
-        public TurnAdventure(IUserCommunicator userCommunicator)
+        public TurnAdventure(IUserCommunicator userCommunicator, IBattleUserCommunicator battleUserCommunicator)
         {
             _userCommunicator = userCommunicator;
 
             _mainMenuOptions = new[]
             {
-                new Battle(_userCommunicator)
+                new Battle(battleUserCommunicator)
             };
         }
 

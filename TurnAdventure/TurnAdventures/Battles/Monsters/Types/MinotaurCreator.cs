@@ -7,11 +7,12 @@ namespace TurnAdventures.Battles.Monsters
         public required AttackActionDefinition HeavyAttackDefinition { get; init; }
         public required Identifier SkipActionIdentifier { get; init; }
         public required CriticalHitActionDefinition CriticalHitActionDefinition { get; init; }
+        public required Identifier FallbackActionIdentifier { get; init; }
 
-        protected override IFighterAction[] GetNormalFighterActions(FighterProxy enemyProxy, IUserCommunicator userCommunicator)
+        protected override IFighterAction[] GetNormalFighterActions(FighterProxy enemyProxy, IBattleUserCommunicator battleUserCommunicator)
         {
-            AttackAction heavyAttack = AttackAction.Create(HeavyAttackDefinition, Identifier, enemyProxy, userCommunicator);
-            SkipAction skipAction = SkipAction.Create(SkipActionIdentifier, Identifier, userCommunicator);
+            AttackAction heavyAttack = AttackAction.Create(HeavyAttackDefinition, Identifier, enemyProxy, battleUserCommunicator);
+            SkipAction skipAction = SkipAction.Create(SkipActionIdentifier, Identifier, battleUserCommunicator);
 
             return new IFighterAction[]
             {
@@ -24,7 +25,7 @@ namespace TurnAdventures.Battles.Monsters
             };
         }
 
-        protected override IFighterAction[] GetEnrangedFighterActions(FighterProxy enemyProxy, IUserCommunicator userCommunicator)
+        protected override IFighterAction[] GetEnrangedFighterActions(FighterProxy enemyProxy, IBattleUserCommunicator battleUserCommunicator)
         {
             Identifier criticalHitIdentifier = new() { Name = "Muscle Boost" };
 
@@ -34,11 +35,11 @@ namespace TurnAdventures.Battles.Monsters
                 EnemyProxy = enemyProxy,
                 DamageModifier = new(criticalHitIdentifier, CriticalHitActionDefinition.Multiplier, CriticalHitActionDefinition.Turns),
                 UserIdentifier = Identifier,
-                UserCommunicator = userCommunicator
+                BattleUserCommunicator = battleUserCommunicator
             };
 
-            AttackAction heavyAttack = AttackAction.Create(HeavyAttackDefinition, Identifier, enemyProxy, userCommunicator);
-            SkipAction skipAction = SkipAction.Create(SkipActionIdentifier, Identifier, userCommunicator);
+            AttackAction heavyAttack = AttackAction.Create(HeavyAttackDefinition, Identifier, enemyProxy, battleUserCommunicator);
+            SkipAction skipAction = SkipAction.Create(SkipActionIdentifier, Identifier, battleUserCommunicator);
 
             return new IFighterAction[]
             {
@@ -48,6 +49,11 @@ namespace TurnAdventures.Battles.Monsters
                 heavyAttack,
                 heavyAttack
             };
+        }
+
+        protected override IFighterAction GetFallbackFighterAction(FighterProxy enemyProxy, IBattleUserCommunicator battleUserCommunicator)
+        {
+            return SkipAction.Create(FallbackActionIdentifier, Identifier, battleUserCommunicator);
         }
     }
 }

@@ -17,9 +17,9 @@ namespace TurnAdventures.Battles
             _turn = turns;
         }
 
-        public double Modify(double amount, IUserCommunicator userCommunicator)
+        public double Modify(double amount, IBattleUserCommunicator battleUserCommunicator)
         {
-            userCommunicator.DisplayActionMessage($"'{_identifier.Name}' has been actived. The next attack will cause {_multiplier}x damage.");
+            battleUserCommunicator.DisplayActionMessage($"'{_identifier.Name}' has been activated. The next attack will cause {_multiplier}x damage.");
 
             _turn--;
             return amount * _multiplier;

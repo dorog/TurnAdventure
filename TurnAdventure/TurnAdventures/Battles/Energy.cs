@@ -16,7 +16,7 @@
             bool hasEnough = HasEnough(amount);
             if (hasEnough)
             {
-                UserCommunicator.DisplayActionMessage($"{Identifier.Name} lost {amount} {Unit}.");
+                BattleUserCommunicator.DisplayActionMessage($"{Identifier.Name} lost {amount} {Unit}.");
                 Remaining -= amount;
             }
 

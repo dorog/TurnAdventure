@@ -7,12 +7,13 @@ namespace TurnAdventures.Battles.Monsters.Types
         public required AttackActionDefinition FastAttackDefinition { get; init; }
         public required AttackActionDefinition HeavyAttackDefinition { get; init; }
         public required Identifier SkipActionIdentifier { get; init; }
+        public required Identifier FallbackActionIdentifier { get; init; }
 
-        protected override IFighterAction[] GetNormalFighterActions(FighterProxy enemyProxy, IUserCommunicator userCommunicator)
+        protected override IFighterAction[] GetNormalFighterActions(FighterProxy enemyProxy, IBattleUserCommunicator battleUserCommunicator)
         {
-            AttackAction fastAttack = AttackAction.Create(FastAttackDefinition, Identifier, enemyProxy, userCommunicator);
-            AttackAction heavyAttack = AttackAction.Create(HeavyAttackDefinition, Identifier, enemyProxy, userCommunicator);
-            SkipAction skipAction = SkipAction.Create(SkipActionIdentifier, Identifier, userCommunicator);
+            AttackAction fastAttack = AttackAction.Create(FastAttackDefinition, Identifier, enemyProxy, battleUserCommunicator);
+            AttackAction heavyAttack = AttackAction.Create(HeavyAttackDefinition, Identifier, enemyProxy, battleUserCommunicator);
+            SkipAction skipAction = SkipAction.Create(SkipActionIdentifier, Identifier, battleUserCommunicator);
 
             return new IFighterAction[]
             {
@@ -25,11 +26,10 @@ namespace TurnAdventures.Battles.Monsters.Types
             };
         }
 
-        protected override IFighterAction[] GetEnrangedFighterActions(FighterProxy enemyProxy, IUserCommunicator userCommunicator)
+        protected override IFighterAction[] GetEnrangedFighterActions(FighterProxy enemyProxy, IBattleUserCommunicator battleUserCommunicator)
         {
-            AttackAction fastAttack = AttackAction.Create(FastAttackDefinition, Identifier, enemyProxy, userCommunicator);
-            AttackAction heavyAttack = AttackAction.Create(HeavyAttackDefinition, Identifier, enemyProxy, userCommunicator);
-            SkipAction skipAction = SkipAction.Create(SkipActionIdentifier, Identifier, userCommunicator);
+            AttackAction fastAttack = AttackAction.Create(FastAttackDefinition, Identifier, enemyProxy, battleUserCommunicator);
+            AttackAction heavyAttack = AttackAction.Create(HeavyAttackDefinition, Identifier, enemyProxy, battleUserCommunicator);
 
             return new IFighterAction[]
             {
@@ -38,6 +38,11 @@ namespace TurnAdventures.Battles.Monsters.Types
                 heavyAttack,
                 fastAttack
             };
+        }
+
+        protected override IFighterAction GetFallbackFighterAction(FighterProxy enemyProxy, IBattleUserCommunicator battleUserCommunicator)
+        {
+            return SkipAction.Create(FallbackActionIdentifier, Identifier, battleUserCommunicator);
         }
     }
 }

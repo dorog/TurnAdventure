@@ -4,22 +4,24 @@ namespace TurnAdventures.Battles
 {
     internal class FighterProxy
     {
-        private readonly Fighter _fighter;
+        private Fighter _fighter;
         private Action<Fighter> _won;
 
-        private readonly ITurnProxy defaulTurnPoxy;
+        private ITurnProxy defaulTurnPoxy;
         private ITurnProxy currentTurnProxy;
 
         public IHealthProxy HealthProxy { get; private set; }
+        public IFighterController Controller { get; private set; }
 
-        public FighterProxy(Fighter fighter, IUserCommunicator userCommunicator)
+        public void Init(Fighter fighter, IFighterController fighterController, IBattleUserCommunicator battleUserCommunicator)
         {
             _fighter = fighter;
 
             defaulTurnPoxy = new NormalTurnProxy(fighter);
             currentTurnProxy = defaulTurnPoxy;
 
-            HealthProxy = new NormalHealthProxy(fighter, userCommunicator);
+            HealthProxy = new NormalHealthProxy(fighter, battleUserCommunicator);
+            Controller = fighterController;
         }
 
         public void ConfigureProxy(Action<Fighter> won)

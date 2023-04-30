@@ -4,7 +4,7 @@ namespace TurnAdventures.Battles
 {
     internal class Fight
     {
-        private readonly IUserCommunicator _userCommunicator;
+        private readonly IBattleUserCommunicator _battleUserCommunicator;
 
         private readonly FighterProxy _firstFighterProxy;
         private readonly FighterProxy _secondFighterProxy;
@@ -14,9 +14,9 @@ namespace TurnAdventures.Battles
 
         private Fighter? winner = null;
 
-        public Fight(IUserCommunicator userCommunicator, FighterProxy firstFighterProxy, FighterProxy secondFighterProxy)
+        public Fight(IBattleUserCommunicator battleUserCommunicator, FighterProxy firstFighterProxy, FighterProxy secondFighterProxy)
         {
-            _userCommunicator = userCommunicator;
+            _battleUserCommunicator = battleUserCommunicator;
 
             _firstFighterProxy = firstFighterProxy;
             _firstFighterProxy.ConfigureProxy(EndFight);
@@ -35,7 +35,7 @@ namespace TurnAdventures.Battles
                 TakeTurn();
             }
 
-            _userCommunicator.DeclareWinner(winner.Identifier.Name);
+            _battleUserCommunicator.DeclareWinner(winner.Identifier);
         }
 
         private void TakeTurn()

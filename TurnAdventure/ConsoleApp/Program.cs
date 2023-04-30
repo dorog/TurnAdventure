@@ -18,6 +18,8 @@ namespace ConsoleApp
             ServiceCollection services = new();
 
             services.AddSingleton<IUserCommunicator, ConsoleUserCommunicator>();
+            services.AddSingleton<IBattleUserCommunicator, ConsoleBattleUserCommunicator>();
+
             services.AddSingleton<TurnAdventure>();
 
             ServiceProvider serviceProvider = services.BuildServiceProvider();
