@@ -17,7 +17,8 @@ namespace TurnAdventures.Battles
             };
         }
 
-        public static PlayerController CreateController(EnergyFighter player, Fighter monster, FighterProxy monsterProxy, IBattleUserCommunicator battleUserCommunicator)
+        public static PlayerController CreateController(EnergyFighter player, Fighter monster,
+            FighterProxy monsterProxy, IBattleUserCommunicator battleUserCommunicator, FigtherEnergyOption specialSkillOption)
         {
             return new(new FightState(player, monster), battleUserCommunicator, new IFightOption[]
             {
@@ -58,7 +59,8 @@ namespace TurnAdventures.Battles
                     ActionIdentifier = new() { Name = "Bored" },
                     UserIdentifier = player.Identifier,
                     BattleUserCommunicator = battleUserCommunicator
-                })
+                }),
+                specialSkillOption
             });
         }
     }

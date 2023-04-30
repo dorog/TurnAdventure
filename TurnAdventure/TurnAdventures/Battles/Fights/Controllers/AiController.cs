@@ -67,7 +67,7 @@ namespace TurnAdventures.Battles
 
             foreach (IFightActionModifier fightActionModifier in _fightActionModifiers)
             {
-                fightActionModifier.Modify(fighterActions, _battleUserCommunicator);
+                fighterActions = fightActionModifier.Modify(fighterActions, _battleUserCommunicator);
             }
 
             return fighterActions.Any();

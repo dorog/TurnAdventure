@@ -8,7 +8,7 @@ namespace TurnAdventures.Battles
         private readonly double _multiplier;
         private int _turn;
 
-        public string Description => $"deal {_multiplier}x damage in the next {_turn} attack(s).";
+        public string Description => $"deal {_multiplier}x damage in the next {_turn} attack(s)";
 
         public MultiplierDamageModifier(Identifier identifier, double multiplier, int turns)
         {
@@ -19,7 +19,7 @@ namespace TurnAdventures.Battles
 
         public double Modify(double amount, IBattleUserCommunicator battleUserCommunicator)
         {
-            battleUserCommunicator.DisplayActionMessage($"'{_identifier.Name}' has been activated. The next attack will cause {_multiplier}x damage.");
+            battleUserCommunicator.DisplayActionMessage($"'{_identifier.Name}' has been activated. The next attack will cause {_multiplier}x damage");
 
             _turn--;
             return amount * _multiplier;

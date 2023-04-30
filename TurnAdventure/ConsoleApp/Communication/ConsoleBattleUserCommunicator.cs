@@ -16,7 +16,7 @@ namespace ConsoleApp.Communication
             return ConsoleCommunicator.AskQuestion(question, monsterOptions);
         }
 
-        public IOption AskForSpecialAbility(string question, IEnumerable<IOption> specialAbilityOptions)
+        public AbilityOption AskForSpecialAbility<AbilityOption>(string question, IEnumerable<AbilityOption> specialAbilityOptions) where AbilityOption : IOption
         {
             return ConsoleCommunicator.AskQuestion(question, specialAbilityOptions);
         }

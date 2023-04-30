@@ -32,9 +32,9 @@ namespace TurnAdventures.Battles.Monsters
             CriticalHitAction criticalHitAction = new()
             {
                 ActionIdentifier = criticalHitIdentifier,
+                UserIdentifier = Identifier,
                 EnemyProxy = enemyProxy,
                 DamageModifier = new(criticalHitIdentifier, CriticalHitActionDefinition.Multiplier, CriticalHitActionDefinition.Turns),
-                UserIdentifier = Identifier,
                 BattleUserCommunicator = battleUserCommunicator
             };
 

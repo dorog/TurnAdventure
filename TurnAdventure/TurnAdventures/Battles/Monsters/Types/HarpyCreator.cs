@@ -38,8 +38,8 @@ namespace TurnAdventures.Battles.Monsters.Types
                 ActionIdentifier = CharmActionDefinition.Identifier,
                 UserIdentifier = Identifier,
                 EnemyProxy = enemyProxy,
-                BattleUserCommunicator = battleUserCommunicator,
-                FightActionBanisher = new(CharmActionDefinition.Identifier, CharmActionDefinition.CategoryForBanishing, CharmActionDefinition.Turns)
+                FightActionBanisher = new(CharmActionDefinition.Identifier, CharmActionDefinition.CategoryForBanishing, CharmActionDefinition.Turns),
+                BattleUserCommunicator = battleUserCommunicator
             };
 
             return new IFighterAction[]
