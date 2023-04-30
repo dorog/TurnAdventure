@@ -7,18 +7,16 @@ namespace TurnAdventures.Battles
         private Fighter _fighter;
         private Action<Fighter> _won;
 
-        private ITurnProxy defaulTurnPoxy;
         private ITurnProxy currentTurnProxy;
-
         public IHealthProxy HealthProxy { get; private set; }
+
         public IFighterController Controller { get; private set; }
 
         public void Init(Fighter fighter, IFighterController fighterController, IBattleUserCommunicator battleUserCommunicator)
         {
             _fighter = fighter;
 
-            defaulTurnPoxy = new NormalTurnProxy(fighter);
-            currentTurnProxy = defaulTurnPoxy;
+            currentTurnProxy = new NormalTurnProxy(fighter);
 
             HealthProxy = new NormalHealthProxy(fighter, battleUserCommunicator);
             Controller = fighterController;
@@ -32,16 +30,6 @@ namespace TurnAdventures.Battles
         public void TakeTurn()
         {
             currentTurnProxy.TakeTurn();
-        }
-
-        public void SetTurnProxy(ITurnProxy newTurnProxy)
-        {
-            currentTurnProxy = newTurnProxy;
-        }
-
-        public void ResetTurnProxy()
-        {
-            currentTurnProxy = defaulTurnPoxy;
         }
 
         public void Won()
