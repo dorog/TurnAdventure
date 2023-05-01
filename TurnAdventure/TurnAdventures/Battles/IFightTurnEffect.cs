@@ -2,7 +2,7 @@
 
 namespace TurnAdventures.Battles
 {
-    internal interface IFightEffect
+    internal interface IFightTurnEffect
     {
         public Identifier Identifier { get; }
         public string Description { get; }

@@ -2,7 +2,7 @@
 
 namespace TurnAdventures.Battles
 {
-    internal class ContinousDamageEffect : IFightEffect
+    internal class ContinousDamageEffect : IFightTurnEffect
     {
         public Identifier Identifier { get; private set; }
 

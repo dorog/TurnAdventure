@@ -14,7 +14,7 @@ namespace TurnAdventures.Battles
 
         public IFighterController Controller { get; private set; }
 
-        public List<IFightEffect> FightEffectsAfterTurn { get; } = new();
+        public List<IFightTurnEffect> FightTurnEffectsAfterDecision { get; } = new();
 
         private bool _isFightOver = false;
 
@@ -40,15 +40,15 @@ namespace TurnAdventures.Battles
 
             if (!_isFightOver)
             {
-                ActiveFightEffects(FightEffectsAfterTurn);
+                ActiveFightTurnEffects(FightTurnEffectsAfterDecision);
             }
         }
 
-        private void ActiveFightEffects(List<IFightEffect> fightEffects)
+        private void ActiveFightTurnEffects(List<IFightTurnEffect> fightTurnEffects)
         {
-            fightEffects.ForEach(fightEffects => fightEffects.Activate(_battleUserCommunicator));
+            fightTurnEffects.ForEach(fightTurnEffect => fightTurnEffect.Activate(_battleUserCommunicator));
 
-            fightEffects.RemoveAll(fightEffects => fightEffects.IsExpired());
+            fightTurnEffects.RemoveAll(fightTurnEffect => fightTurnEffect.IsExpired());
         }
 
         public void Won()

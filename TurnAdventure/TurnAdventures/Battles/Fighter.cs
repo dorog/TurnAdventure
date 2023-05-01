@@ -47,16 +47,16 @@ namespace TurnAdventures.Battles
                 Health = Health.Remaining
             };
 
-            AddFightEffectsInfos(_self.FightEffectsAfterTurn, fighterStateInfo.ExtraInformation);
+            AddFightTurnEffectsInfos(_self.FightTurnEffectsAfterDecision, fighterStateInfo.ExtraInformation);
 
             return fighterStateInfo;
         }
 
-        private static void AddFightEffectsInfos(List<IFightEffect> fightEffects, List<ExtraInfo> extraInformation)
+        private static void AddFightTurnEffectsInfos(List<IFightTurnEffect> fightTurnEffects, List<ExtraInfo> extraInformation)
         {
-            foreach (IFightEffect fightEffect in fightEffects)
+            foreach (IFightTurnEffect fightTurnEffect in fightTurnEffects)
             {
-                ExtraInfo debuffExtraInfo = new() { Description = fightEffect.State, Type = fightEffect.Type };
+                ExtraInfo debuffExtraInfo = new() { Description = fightTurnEffect.State, Type = fightTurnEffect.Type };
                 extraInformation.Add(debuffExtraInfo);
             }
         }
