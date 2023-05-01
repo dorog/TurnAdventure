@@ -4,6 +4,7 @@ namespace TurnAdventures.Battles
 {
     internal class Fighter
     {
+        private FighterProxy _self { get; set; }
         private FighterProxy _enemy { get; set; }
         private IFighterController _controller { get; set; }
         private bool _isInitialized = false;
@@ -12,10 +13,11 @@ namespace TurnAdventures.Battles
         public required Health Health { private get; init; }
         public required IBattleUserCommunicator BattleUserCommunicator { private get; init; }
 
-        public void Init(FighterProxy enemy, IFighterController controller)
+        public void Init(FighterProxy self, FighterProxy enemy, IFighterController controller)
         {
             if (!_isInitialized)
             {
+                _self = self;
                 _enemy = enemy;
                 _controller = controller;
                 _isInitialized = true;
@@ -39,11 +41,24 @@ namespace TurnAdventures.Battles
 
         public virtual FighterStateInfo GetStateInfo()
         {
-            return new()
+            FighterStateInfo fighterStateInfo = new()
             {
                 Name = Identifier.Name,
                 Health = Health.Remaining
             };
+
+            AddDebuffInfos(fighterStateInfo.ExtraInformation);
+
+            return fighterStateInfo;
+        }
+
+        private void AddDebuffInfos(List<ExtraInfo> extraInformation)
+        {
+            foreach (IFightEffect debuff in _self.Debuffs)
+            {
+                ExtraInfo debuffExtraInfo = new() { Description = debuff.State, Type = ExtraInfoType.Debuff };
+                extraInformation.Add(debuffExtraInfo);
+            }
         }
     }
 }

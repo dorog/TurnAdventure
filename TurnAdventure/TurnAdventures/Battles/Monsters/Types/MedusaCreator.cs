@@ -7,6 +7,7 @@ namespace TurnAdventures.Battles.Monsters.Types
         public required AttackActionDefinition FastAttackDefinition { get; init; }
         public required AttackActionDefinition HeavyAttackDefinition { get; init; }
         public required Identifier SkipActionIdentifier { get; init; }
+        public required PoisonActionDefinition PoisonActionDefinition { get; init; }
         public required Identifier FallbackActionIdentifier { get; init; }
 
         protected override IFighterAction[] GetNormalFighterActions(FighterProxy enemyProxy, IBattleUserCommunicator battleUserCommunicator)
@@ -33,6 +34,14 @@ namespace TurnAdventures.Battles.Monsters.Types
 
             return new IFighterAction[]
             {
+                new PoisonAction()
+                {
+                    ActionIdentifier = PoisonActionDefinition.Identifier,
+                    UserIdentifier = Identifier,
+                    EnemyProxy = enemyProxy,
+                    ContinousDamageEffect = new(PoisonActionDefinition.Identifier, enemyProxy, PoisonActionDefinition.Damage, PoisonActionDefinition.Turns),
+                    BattleUserCommunicator = battleUserCommunicator
+                },
                 fastAttack,
                 heavyAttack,
                 heavyAttack,

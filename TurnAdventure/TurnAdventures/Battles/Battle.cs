@@ -26,10 +26,10 @@ namespace TurnAdventures.Battles
             FigtherEnergyOption playerSpecialSkillOption = PlayerSpecialAbilityFactory.GetSpecialAbility(_battleUserCommunicator, player.Identifier, player.Energy, monsterDefinition.Proxy);
 
             IFighterController playerController = PlayerCreator.CreateController(player, monsterDefinition.Monster, monsterDefinition.Proxy, _battleUserCommunicator, playerSpecialSkillOption);
-            player.Init(monsterDefinition.Proxy, playerController);
+            player.Init(playerProxy, monsterDefinition.Proxy, playerController);
 
             IFighterController monsterController = monsterCreator.CreateMonsterController(monsterDefinition.Identifier, playerProxy, monsterDefinition.Health, _battleUserCommunicator);
-            monsterDefinition.Monster.Init(playerProxy, monsterController);
+            monsterDefinition.Monster.Init(monsterDefinition.Proxy, playerProxy, monsterController);
 
             playerProxy.Init(player, playerController, _battleUserCommunicator);
             monsterDefinition.Proxy.Init(monsterDefinition.Monster, monsterController, _battleUserCommunicator);

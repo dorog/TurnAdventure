@@ -44,6 +44,7 @@ namespace TurnAdventures.Battles.Monsters
                     FastAttackDefinition = new() { Damage = 10, Identifier = new() { Name = "Tail Swing" } },
                     HeavyAttackDefinition = new() { Damage = 20, Identifier = new() { Name = "Deadly Look" } },
                     SkipActionIdentifier = new() { Name = "Breath" },
+                    PoisonActionDefinition = new() { Identifier = new() { Name = "Snake Venom" }, Damage = 5, Turns = 10 },
                     FallbackActionIdentifier = new() { Name = "Confused" }
                 }
             }

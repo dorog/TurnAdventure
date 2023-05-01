@@ -17,6 +17,7 @@ namespace TurnAdventures.Battles
         {
             Identifier criticalHitIdentifier = new() { Name = "Focus" };
             Identifier charmIdentifier = new() { Name = "Praise" };
+            Identifier poisionIdentifier = new() { Name = "Mushroom venom" };
 
             return new[]
             {
@@ -41,6 +42,18 @@ namespace TurnAdventures.Battles
                         UserIdentifier = playerIdentifier,
                         EnemyProxy = monsterProxy,
                         FightActionBanisher = new(charmIdentifier, FightActionCategory.Attack, 1),
+                        BattleUserCommunicator = _battleUserCommunicator
+                    }
+                }),
+                new FigtherEnergyOption(playerEnergy, new FighterEnergyAction()
+                {
+                    Energy = 20,
+                    FighterAction = new PoisonAction()
+                    {
+                        ActionIdentifier = poisionIdentifier,
+                        UserIdentifier = playerIdentifier,
+                        EnemyProxy= monsterProxy,
+                        ContinousDamageEffect = new(poisionIdentifier, monsterProxy, 5, 3),
                         BattleUserCommunicator = _battleUserCommunicator
                     }
                 })

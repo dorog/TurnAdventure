@@ -5,6 +5,8 @@ namespace TurnAdventures.Battles
     internal class FighterProxy
     {
         private Fighter _fighter;
+        private IBattleUserCommunicator _battleUserCommunicator;
+
         private Action<Fighter> _won;
 
         private ITurnProxy currentTurnProxy;
@@ -12,9 +14,14 @@ namespace TurnAdventures.Battles
 
         public IFighterController Controller { get; private set; }
 
+        public List<IFightEffect> Debuffs { get; } = new();
+
+        private bool _isWon = false;
+
         public void Init(Fighter fighter, IFighterController fighterController, IBattleUserCommunicator battleUserCommunicator)
         {
             _fighter = fighter;
+            _battleUserCommunicator = battleUserCommunicator;
 
             currentTurnProxy = new NormalTurnProxy(fighter);
 
@@ -30,10 +37,23 @@ namespace TurnAdventures.Battles
         public void TakeTurn()
         {
             currentTurnProxy.TakeTurn();
+
+            if (!_isWon)
+            {
+                ActiveDebuffs();
+            }
+        }
+
+        private void ActiveDebuffs()
+        {
+            Debuffs.ForEach(debuff => debuff.Activate(_battleUserCommunicator));
+
+            Debuffs.RemoveAll(debuff => debuff.IsExpired());
         }
 
         public void Won()
         {
+            _isWon = true;
             _won.Invoke(_fighter);
         }
     }

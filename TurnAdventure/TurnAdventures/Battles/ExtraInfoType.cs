@@ -2,6 +2,6 @@
 {
     public enum ExtraInfoType
     {
-        Energy
+        Energy, Debuff
     }
 }
