@@ -14,6 +14,7 @@ namespace TurnAdventures.Battles
 
         public string Description => Message(_turns);
         public string State => Message(_turnLeft);
+        public ExtraInfoType Type => ExtraInfoType.Debuff;
 
         public ContinousDamageEffect(Identifier identifier, FighterProxy targetFighter, double damage, int turns)
         {

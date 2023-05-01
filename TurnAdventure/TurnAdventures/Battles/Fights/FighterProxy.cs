@@ -14,9 +14,9 @@ namespace TurnAdventures.Battles
 
         public IFighterController Controller { get; private set; }
 
-        public List<IFightEffect> Debuffs { get; } = new();
+        public List<IFightEffect> FightEffectsAfterTurn { get; } = new();
 
-        private bool _isWon = false;
+        private bool _isFightOver = false;
 
         public void Init(Fighter fighter, IFighterController fighterController, IBattleUserCommunicator battleUserCommunicator)
         {
@@ -38,23 +38,27 @@ namespace TurnAdventures.Battles
         {
             currentTurnProxy.TakeTurn();
 
-            if (!_isWon)
+            if (!_isFightOver)
             {
-                ActiveDebuffs();
+                ActiveFightEffects(FightEffectsAfterTurn);
             }
         }
 
-        private void ActiveDebuffs()
+        private void ActiveFightEffects(List<IFightEffect> fightEffects)
         {
-            Debuffs.ForEach(debuff => debuff.Activate(_battleUserCommunicator));
+            fightEffects.ForEach(fightEffects => fightEffects.Activate(_battleUserCommunicator));
 
-            Debuffs.RemoveAll(debuff => debuff.IsExpired());
+            fightEffects.RemoveAll(fightEffects => fightEffects.IsExpired());
         }
 
         public void Won()
         {
-            _isWon = true;
             _won.Invoke(_fighter);
+        }
+
+        public void StopFighting()
+        {
+            _isFightOver = true;
         }
     }
 }

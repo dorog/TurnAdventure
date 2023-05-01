@@ -15,7 +15,7 @@ namespace TurnAdventures.Battles
 
         public void Execute()
         {
-            if (EnemyProxy.Debuffs.Any(debuff => debuff.Identifier == ContinousDamageEffect.Identifier))
+            if (EnemyProxy.FightEffectsAfterTurn.Any(fightEffect => fightEffect.Identifier == ContinousDamageEffect.Identifier))
             {
                 ContinousDamageEffect.Extend();
                 BattleUserCommunicator.DisplayActionMessage($"{UserIdentifier.Name} extended the effect of the {ActionIdentifier.Name}.");
@@ -25,7 +25,7 @@ namespace TurnAdventures.Battles
                 ContinousDamageEffect.Reset();
 
                 BattleUserCommunicator.DisplayActionMessage($"{UserIdentifier.Name} used '{ActionIdentifier.Name}' to {Description}.");
-                EnemyProxy.Debuffs.Add(ContinousDamageEffect);
+                EnemyProxy.FightEffectsAfterTurn.Add(ContinousDamageEffect);
             }
         }
     }

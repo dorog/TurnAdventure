@@ -48,6 +48,9 @@ namespace TurnAdventures.Battles
         private void EndFight(Fighter fightWinner)
         {
             winner = fightWinner;
+
+            _firstFighterProxy.StopFighting();
+            _secondFighterProxy.StopFighting();
         }
     }
 }
