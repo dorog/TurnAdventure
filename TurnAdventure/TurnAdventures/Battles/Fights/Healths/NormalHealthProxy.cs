@@ -15,6 +15,14 @@ namespace TurnAdventures.Battles
             _battleUserCommunicator = battleUserCommunicator;
         }
 
+        public void AddExtraInfos(List<ExtraInfo> extraInformation)
+        {
+            foreach (IDamageModifier damageModifier in _damageModifier)
+            {
+                extraInformation.Add(new() { Description = $"{damageModifier.State}.", Type = damageModifier.Type });
+            }
+        }
+
         public void TakeDamage(double damage)
         {
             if (_damageModifier.Any())

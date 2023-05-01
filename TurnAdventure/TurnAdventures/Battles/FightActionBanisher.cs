@@ -9,6 +9,7 @@ namespace TurnAdventures.Battles
         private int _remainingEffectTimeInTurns;
 
         public string Description => $"banishes every action which has a(n) '{_categoryForBanishing}' category";
+        public ExtraInfoType Type => ExtraInfoType.Debuff;
 
         public FightActionBanisher(Identifier identifier, FightActionCategory categoryForBanishing, int remainingEffectTimeInTurns)
         {

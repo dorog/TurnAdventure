@@ -2,7 +2,7 @@
 {
     public class ExtraInfo
     {
-        public ExtraInfoType Type { get; init; }
-        public string Description { get; init; }
+        public required ExtraInfoType Type { get; init; }
+        public required string Description { get; init; }
     }
 }

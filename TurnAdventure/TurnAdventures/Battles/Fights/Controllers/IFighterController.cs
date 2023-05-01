@@ -2,7 +2,7 @@
 {
     internal interface IFighterController
     {
-        void ChoseAction();
-        void AddActionModifier(IFightActionModifier fighterOptionModifier);
+        public void ChoseAction();
+        public void AddActionModifier(IFightActionModifier fighterOptionModifier);
     }
 }

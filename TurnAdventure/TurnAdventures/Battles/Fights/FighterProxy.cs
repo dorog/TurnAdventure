@@ -34,6 +34,22 @@ namespace TurnAdventures.Battles
             _won = won;
         }
 
+        public void AddExtraInfos(List<ExtraInfo> extraInformation)
+        {
+            AddFightTurnEffectsInfos(FightTurnEffectsAfterDecision, extraInformation);
+
+            HealthProxy.AddExtraInfos(extraInformation);
+        }
+
+        private static void AddFightTurnEffectsInfos(List<IFightTurnEffect> fightTurnEffects, List<ExtraInfo> extraInformation)
+        {
+            foreach (IFightTurnEffect fightTurnEffect in fightTurnEffects)
+            {
+                ExtraInfo debuffExtraInfo = new() { Description = fightTurnEffect.State, Type = fightTurnEffect.Type };
+                extraInformation.Add(debuffExtraInfo);
+            }
+        }
+
         public void TakeTurn()
         {
             currentTurnProxy.TakeTurn();

@@ -2,7 +2,8 @@
 {
     internal interface IHealthProxy
     {
-        void TakeDamage(double damage);
-        void AddDamageModifier(IDamageModifier modifier);
+        public void TakeDamage(double damage);
+        public void AddExtraInfos(List<ExtraInfo> extraInformation);
+        public void AddDamageModifier(IDamageModifier modifier);
     }
 }
