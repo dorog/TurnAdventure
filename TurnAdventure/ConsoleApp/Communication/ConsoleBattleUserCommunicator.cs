@@ -48,7 +48,7 @@ namespace ConsoleApp.Communication
         {
             Console.WriteLine();
             Console.WriteLine($"Name: {fighterStateInfo.Name}");
-            Console.WriteLine($"Health: {fighterStateInfo.Health}");
+            Console.WriteLine($"Health: {fighterStateInfo.RemainingHealth}/{fighterStateInfo.MaxHealth}");
 
             foreach (ExtraInfo extraInfo in fighterStateInfo.ExtraInformation)
             {

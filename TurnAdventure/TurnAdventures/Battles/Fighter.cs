@@ -44,7 +44,8 @@ namespace TurnAdventures.Battles
             FighterStateInfo fighterStateInfo = new()
             {
                 Name = Identifier.Name,
-                Health = Health.Remaining
+                RemainingHealth = Health.Remaining,
+                MaxHealth = Health.Max,
             };
 
             _self.AddExtraInfos(fighterStateInfo.ExtraInformation);

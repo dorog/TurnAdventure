@@ -7,7 +7,11 @@
         public override FighterStateInfo GetStateInfo()
         {
             FighterStateInfo fighterStateInfo = base.GetStateInfo();
-            fighterStateInfo.ExtraInformation.Add(new ExtraInfo() { Type = ExtraInfoType.Energy, Description = Energy.Remaining.ToString() });
+            fighterStateInfo.ExtraInformation.Add(new ExtraInfo()
+            {
+                Type = ExtraInfoType.Energy,
+                Description = $"{Energy.Remaining}/{Energy.Max}"
+            });
 
             return fighterStateInfo;
         }

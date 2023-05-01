@@ -4,16 +4,16 @@ namespace TurnAdventures.Battles
 {
     internal abstract class Storage
     {
-        private readonly double _max;
         protected abstract string Unit { get; }
 
+        public double Max { get; private set; }
         public double Remaining { get; protected set; }
         public required Identifier Identifier { protected get; init; }
         public required IBattleUserCommunicator BattleUserCommunicator { protected get; init; }
 
         public Storage(double amount)
         {
-            _max = amount;
+            Max = amount;
             Remaining = amount;
         }
 
@@ -21,10 +21,10 @@ namespace TurnAdventures.Battles
 
         public void Gain(double amount)
         {
-            if (Remaining + amount > _max)
+            if (Remaining + amount > Max)
             {
-                DisplayActionMessage(_max - Remaining);
-                Remaining = _max;
+                DisplayActionMessage(Max - Remaining);
+                Remaining = Max;
             }
             else
             {
